@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+@import url('style.css'); /* Import core flex logic to prevent breakages */
+
+:root {
+    --cyan: #00f3ff;
+    --cyan-dim: rgba(0, 243, 255, 0.15);
+    --blue: #0066ff;
+    --dark: #050505;
+    --panel-bg: rgba(10, 15, 20, 0.85);
+    --border-color: rgba(0, 243, 255, 0.6);
+    --neon-green: #00ff41;
+    --alert-red: #ff3333;
+    --gold: #ffcc00;
+
+    /* Override Original Variables Theme */
+    --bg-darker: #000;
+    --primary-neon: var(--cyan);
+    --primary-glow: rgba(0, 243, 255, 0.6);
+    --text-main: var(--cyan);
+    --text-muted: var(--neon-green);
+    --glass-bg: rgba(0, 10, 15, 0.85);
+    --glass-border: var(--cyan);
+}
+
+body {
+    background-color: #000;
+    color: var(--cyan);
+    font-family: 'Share Tech Mono', monospace;
+    cursor: crosshair;
+}
+
+/* Background Animated Blobs Removal */
+.background-effects { display: none; }
+
+/* Hacker Panel Styling Override */
+.glass-panel {
+    clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);
+    border-radius: 0;
+    border: 1px solid var(--cyan);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+}
+
+/* Header Text Override */
+.logo h1 {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px var(--cyan);
+}
+
+.subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--neon-green);
+    letter-spacing: 2px;
+}
+
+/* Inputs and Buttons Override */
+.tab-btn {
+    border: 1px solid var(--cyan-dim);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--cyan);
+    border-radius: 0;
+}
+
+.tab-btn.active {
+    background: rgba(0, 243, 255, 0.2);
+    border: 1px solid var(--cyan);
+    box-shadow: inset 0 0 15px var(--cyan-dim);
+    color: var(--neon-green); text-shadow: 0 0 5px var(--neon-green);
+}
+
+input[type="text"], input[type="number"], input[type="tel"] {
+    font-family: 'Share Tech Mono', monospace;
+    border-radius: 0;
+    border: 1px solid var(--cyan);
+    background: rgba(0,0,0,0.8);
+    color: var(--neon-green);
+    border-bottom: 2px solid var(--neon-green);
+}
+
+.primary-btn {
+    background: var(--neon-green);
+    color: #000;
+    font-family: 'Orbitron', sans-serif;
+    border-radius: 0;
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+    box-shadow: 0 0 20px var(--neon-green);
+}
+
+.primary-btn:hover { background: #fff; box-shadow: 0 0 40px var(--neon-green); }
+
+/* Radar Background Assets */
+.bg-motion {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: #020202; perspective: 1000px; overflow: hidden;
+}
+
+.hex-grid {
+    position: absolute; width: 100%; height: 100%;
+    background-image: radial-gradient(circle, var(--cyan-dim) 1px, transparent 1px), radial-gradient(circle, var(--cyan-dim) 1px, transparent 1px);
+    background-size: 40px 40px; background-position: 0 0, 20px 20px; opacity: 0.2; animation: pulseGrid 5s ease-in-out infinite;
+}
+
+.grid-floor {
+    position: absolute; width: 300%; height: 200%; bottom: -50%; left: -100%;
+    background: linear-gradient(90deg, rgba(0, 243, 255, 0.3) 1px, transparent 1px), linear-gradient(0deg, rgba(0, 243, 255, 0.3) 1px, transparent 1px);
+    background-size: 80px 80px; transform: rotateX(70deg); animation: gridMove 20s linear infinite; mask-image: linear-gradient(to top, black 30%, transparent 80%); opacity: 0.8;
+}
+
+.geo-shape { position: absolute; border: 2px solid var(--cyan-dim); opacity: 0.5; box-shadow: 0 0 15px var(--cyan-dim); }
+
+.circle-1 {
+    width: 800px; height: 800px; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px dashed var(--cyan); position: relative; animation: rotateRight 80s linear infinite;
+}
+
+.circle-1::before {
+    content: ""; position: absolute; width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0deg, transparent 270deg, rgba(0, 243, 255, 0.1) 300deg, rgba(0, 243, 255, 0.4) 340deg, rgba(0, 243, 255, 0.8) 360deg); animation: radarSweep 4s linear infinite; opacity: 0.5;
+}
+
+.circle-2 {
+    width: 650px; height: 650px; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); border-top: 4px solid var(--cyan); border-bottom: 4px solid var(--cyan); animation: rotateLeft 50s linear infinite;
+}
+
+.circle-2::after {
+    content: ""; position: absolute; top: 20%; left: 20%; width: 10px; height: 10px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 15px var(--neon-green); animation: blip 2s infinite;
+}
+
+@keyframes gridMove { 0% { transform: rotateX(70deg) translateY(0); } 100% { transform: rotateX(70deg) translateY(80px); } }
+@keyframes radarSweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes rotateRight { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes rotateLeft { from { transform: translate(-50%, -50%) rotate(360deg); } to { transform: translate(-50%, -50%) rotate(0deg); } }
+@keyframes blip { 0%, 100% { opacity: 0; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); } }
+@keyframes pulseGrid { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.3; } }
+
+/* INTERNATIONAL EXPERT STANDARD - PIXEL PERFECT ALIGNMENT & COMPACTNESS */
+#result-box {
+    display: block !important;
+    text-align: left !important;
+    padding-top: 10px !important;
+}
+
+#result-status {
+    margin: 0 0 12px 0 !important; /* Spacing exactly like Picture No 2 */
+    padding: 0 !important;
+    text-align: left !important;
+    display: block !important;
+    font-size: 1.1rem !important;
+    line-height: 1 !important;
+}
+
+#result-content {
+    margin: 0 !important; 
+    padding: 0 !important;
+    text-align: left !important;
+    display: block !important;
+    white-space: normal !important; 
+    width: 100% !important;
+}
+
+#result-content div,
+#result-content p {
+    text-align: left !important;
+    margin: 0 0 12px 0 !important; /* Perfect gap between Reason and Action */
+    padding: 0 !important;
+    line-height: 1.4 !important;
+    color: #ffffff !important; /* White for comfort */
+}

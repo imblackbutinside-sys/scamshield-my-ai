@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScamShield MY | Advanced Fraud Radar Edition</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <meta name="description" content="Sistem Pengesanan Scam Berkuasa AI. Semak URL, mesej, dan nombor telefon yang mencurigakan.">
+    <!-- Link to the Hacker radar stylesheet -->
+    <link rel="stylesheet" href="fraud-radar.css?v=100">
+    <!-- Google Fonts for Hacker Edition -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- Ionicons for Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+
+    <!-- CSS Injected Radar Background (Fail-Safe) -->
+    <div class="bg-motion">
+        <div class="hex-grid"></div>
+        <div class="grid-floor"></div>
+        <div class="geo-shape circle-1"></div>
+        <div class="geo-shape circle-2"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header with Lang Toggle -->
+        <header class="header">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                <select id="lang-select" class="lang-toggle">
+                    <option value="Malay" selected>🇲🇾 Malay</option>
+                    <option value="English">🇬🇧 English</option>
+                    <option value="Mandarin">🇨🇳 Mandarin (中文)</option>
+                    <option value="Tamil">🇮🇳 Tamil (தமிழ்)</option>
+                    <option value="Arabic">🇸🇦 Arabic (عربي)</option>
+                </select>
+            </div>
+            <div class="logo">
+                <ion-icon name="shield-checkmark"></ion-icon>
+                <h1 id="i18n-title">SCAM.SHIELD_<span>MY</span></h1>
+            </div>
+            <p class="subtitle" id="i18n-subtitle">Enjin Penganalisis Kebarangkalian Scam</p>
+        </header>
+
+        <!-- Main Card (Glassmorphism Radar Style) -->
+        <main class="glass-panel">
+            <div class="tabs">
+                <button class="tab-btn active" data-type="url" id="tab-url">
+                    <ion-icon name="link-outline"></ion-icon> <span id="i18n-taburl">Pautan (URL)</span>
+                </button>
+                <button class="tab-btn" data-type="message" id="tab-message">
+                    <ion-icon name="chatbubble-ellipses-outline"></ion-icon> <span id="i18n-tabmsg">Mesej</span>
+                </button>
+                <button class="tab-btn" data-type="phone" id="tab-phone">
+                    <ion-icon name="call-outline"></ion-icon> <span id="i18n-tabphone">Nombor</span>
+                </button>
+                <button class="tab-btn" data-type="email" id="tab-email">
+                    <ion-icon name="mail-outline"></ion-icon> <span id="i18n-tabemail">E-mel</span>
+                </button>
+                <button class="tab-btn" data-type="transaction" id="tab-financial">
+                    <ion-icon name="wallet-outline"></ion-icon> <span id="i18n-tabfinancial">Transaksi</span>
+                </button>
+            </div>
+
+            <div class="input-section">
+                <input type="text" id="scan-input" placeholder="Masukkan URL yang mencurigakan di sini..." autocomplete="off">
+                <button id="scan-btn" class="primary-btn"><span id="i18n-scanbtn">IMBAS SEKARANG</span></button>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loader" class="loader hidden">
+                <div class="spinner"></div>
+                <p id="i18n-loader">Sedang Menganalisis dengan Enjin AI...</p>
+            </div>
+
+            <!-- Result Box -->
+            <div id="result-box" class="result-box hidden">
+                <h3 id="result-status"></h3>
+                <div class="result-content" id="result-content"></div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p id="i18n-footer">Dikuasakan oleh <strong>MuleRouter Gateway</strong> & AI</p>
+        </footer>
+    </div>
+    
+    <!-- Link to the refined Javascript app engine -->
+    <script src="app.js?v=100"></script>
+</body>
+</html>
