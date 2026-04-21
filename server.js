@@ -25,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // === LOCAL DATABASE (HYBRID CHECK) ===
 const maliciousUrls = new Map();
 const spamMessages = new Set();
+const emailMessages = new Set();
 const fraudIndicators = new Map();
 
 function loadDatasets() {
@@ -80,7 +81,7 @@ function loadDatasets() {
                 const text = row.Email_Text || row.text;
                 const label = row.Email_Type || row.label;
                 if (label === 'Phishing Email' && text) {
-                    spamMessages.add(text.trim().toLowerCase()); // Reuse spamMessages for emails in local check
+                    emailMessages.add(text.trim().toLowerCase()); 
                 }
             })
             .on('end', () => console.log(`✅ Loaded: Phishing Email Dataset (Integrated with Message scan).`));
@@ -107,12 +108,14 @@ app.post('/api/scan', async (req, res) => {
     const dbResponses = {
         'Malay': {
             urlReason: (threat, tags) => `Pautan disenarai hitam (Ancaman: ${threat}).`,
-            msgReason: 'Mesej disahkan SPAM / Phishing.',
+            msgReason: 'Mesej disahkan SMS SPAM.',
+            emailReason: 'Emel ini padan dengan pangkalan data Phishing/Malware.',
             transactionReason: (id, status) => status === '1' ? `Rekod kewangan dikesan FRAUD.` : `Rekod kewangan SELAMAT.`
         },
         'English': {
             urlReason: (threat, tags) => `Blacklisted link (Threat: ${threat}).`,
-            msgReason: 'Message verified as SPAM / Phishing.',
+            msgReason: 'Message verified as SMS SPAM.',
+            emailReason: 'This email matches the Phishing/Malware database.',
             transactionReason: (id, status) => status === '1' ? `Financial records mark FRAUD.` : `Financial records SAFE.`
         }
     };
@@ -206,6 +209,19 @@ app.post('/api/scan', async (req, res) => {
                 });
             }
         }
+    } else if (type === 'email') {
+        const lowerMsg = inputData.toLowerCase();
+        for (let emailText of emailMessages) {
+            if (lowerMsg === emailText || (lowerMsg.length > 30 && (lowerMsg.includes(emailText) || emailText.includes(lowerMsg)))) {
+                return res.json({
+                    success: true,
+                    status: 'SCAM',
+                    reason: localized.emailReason,
+                    action: lang === 'Malay' ? 'Jangan klik sebarang pautan dalam emel ini.' : 'Do not click any links in this email.',
+                    labels: labels[lang] || labels['English']
+                });
+            }
+        }
     }
 
     // ----------------------------------------------------
@@ -295,13 +311,13 @@ ANALYSIS FRAMEWORK:
             const simulationMap = {
                 'Malay': { 
                     status: isSafeDomain ? 'SAFE' : (type === 'phone' || type === 'transaction' ? 'SAFE' : 'SCAM'), 
-                    reason: isSafeDomain ? 'Domain rasmi yang dipercayai.' : 'Corak manipulasi siber dikesan.',
-                    action: isSafeDomain ? 'Teruskan dengan selamat.' : 'Sahkan portal rasmi PDRM / SEMAKMULE.' 
+                    reason: isSafeDomain ? 'Domain rasmi yang dipercayai.' : (type === 'email' ? 'Taktik Phishing Emel antarabangsa dikesan.' : (type === 'message' ? 'Corak penipuan mesej SMS dikesan.' : 'Corak manipulasi siber dikesan.')),
+                    action: isSafeDomain ? 'Teruskan dengan selamat.' : (type === 'email' ? 'Padam emel ini segera.' : 'Sahkan portal rasmi PDRM / SEMAKMULE.') 
                 },
                 'English': { 
                     status: isSafeDomain ? 'SAFE' : (type === 'phone' || type === 'transaction' ? 'SAFE' : 'SCAM'), 
-                    reason: isSafeDomain ? 'Trusted official domain.' : 'Manipulation pattern detected.',
-                    action: isSafeDomain ? 'Proceed safely.' : 'Verify official portal.' 
+                    reason: isSafeDomain ? 'Trusted official domain.' : (type === 'email' ? 'International Email Phishing tactics detected.' : (type === 'message' ? 'SMS scam pattern detected.' : 'Manipulation pattern detected.')),
+                    action: isSafeDomain ? 'Proceed safely.' : (type === 'email' ? 'Delete this email immediately.' : 'Verify official portal.') 
                 },
                 'Mandarin': { 
                     status: isSafeDomain ? 'SAFE' : (type === 'phone' || type === 'transaction' ? 'SAFE' : 'SCAM'), 
