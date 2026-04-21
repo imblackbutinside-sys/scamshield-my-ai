@@ -99,6 +99,8 @@ Translations cover: UI labels, buttons, placeholders, AI reports, and database r
 |---|---|---|---|
 | **URLHaus** | urlhaus.abuse.ch | 10,673 | Phishing/malware URLs |
 | **SMS Spam Collection** | UCI ML Repository | 642 spam | Scam message detection |
+| **Fraud Detection Dataset** | Synthetic/Kaggle | 5,000+ | Financial transaction fraud verification |
+| **Phishing Email Dataset** | Kaggle / OSINT | 38,000+ | Email scam content analysis |
 
 ---
 
@@ -112,7 +114,7 @@ Translations cover: UI labels, buttons, placeholders, AI reports, and database r
 
 ```bash
 # 1. Enter the project folder
-cd "ScamShield MY — AI-Powered Scam & Fraud Detection Assistant/ScamShield-English-Version"
+cd scamshield-my-ai
 
 # 2. Install dependencies
 npm install
